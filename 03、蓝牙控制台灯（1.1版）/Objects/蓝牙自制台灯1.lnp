@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj" 
+TO ".\Objects\蓝牙自制台灯1.1" 
+PRINT(".\Listings\蓝牙自制台灯1.m51") RAMSIZE(256) 

@@ -1,0 +1,57 @@
+C51 COMPILER V9.54   ________LED__                                                         02/17/2020 22:46:25 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE ________LED__
+OBJECT MODULE PLACED IN 蓝牙控制LED灯.OBJ
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE 蓝牙控制LED灯.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include<reg51.h>
+   2          sbit led=P1^0;
+   3          void set();
+   4          void main()
+   5          {
+   6   1      set();
+   7   1      while(1)
+   8   1      {
+   9   2      }
+  10   1      } 
+  11          void set()
+  12          {
+  13   1      TMOD=0x20 ; //设置定时器工作方式2
+  14   1      TH1=0xFd ; //设置波特率
+  15   1      TL1=0xFd ;
+  16   1      SCON=0x50; // 工作方式1，SM2=0
+  17   1      PCON= 0x00;// 波特率不加倍 
+  18   1      EA=1;//打开串口中断
+  19   1      ES=1;
+  20   1      TR1=1; //打开定时器
+  21   1      
+  22   1      }
+  23          
+  24          void interruptf() interrupt 4
+  25          {
+  26   1      
+  27   1      
+  28   1      switch (SBUF)
+  29   1      {
+  30   2      case 0x01:P1=0X00; break;
+  31   2      case 0x02:P1=0XFF;break;
+  32   2      }
+  33   1      RI=0;//复位
+  34   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     63    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

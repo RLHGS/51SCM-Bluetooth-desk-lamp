@@ -1,0 +1,109 @@
+C51 COMPILER V9.54   MAIN                                                                  02/18/2020 12:01:51 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include<reg51.h>
+   2          //sbit led=P1^0;
+   3          unsigned char fig=0;
+   4          /********函数声明********/
+   5          void LED1();
+   6          void LED2();
+   7          void LED3();
+   8          void LED4();
+   9          void set();
+  10          
+  11          
+  12          void main()
+  13          {
+  14   1      set();
+  15   1      while(1)
+  16   1      {
+  17   2      }
+  18   1      } 
+  19          
+  20          
+  21          void set()
+  22          {
+  23   1      TMOD=0x20 ; //设置定时器工作方式2
+  24   1      TH1=0xFd ; //设置波特率
+  25   1      TL1=0xFd ;
+  26   1      SCON=0x50; // 工作方式1，SM2=0
+  27   1      PCON= 0x00;// 波特率不加倍 
+  28   1      EA=1;//打开串口中断
+  29   1      ES=1;
+  30   1      TR1=1; //打开定时器
+  31   1      
+  32   1      }
+  33          
+  34          void interruptf() interrupt 4
+  35          {
+  36   1      switch (SBUF)
+  37   1      {
+  38   2      case 0x01:LED1();break;      //灯亮，12个白灯
+  39   2      case 0x02:LED2();break;     //灯全灭
+  40   2      case 0x03:LED3(); break;        //12个暖灯亮
+  41   2      case 0x04:LED4(); break;      //24个灯全亮  
+  42   2      }
+  43   1      RI=0;//复位
+  44   1      }
+  45          
+  46          void LED1()     //灯亮，12个白灯
+  47          {if(fig == 0)
+  48   1        {
+  49   2        P0=0X00;
+  50   2        P1=0Xf0;
+  51   2        P2=0xff;
+  52   2        fig=1;
+  53   2        }
+  54   1      }
+C51 COMPILER V9.54   MAIN                                                                  02/18/2020 12:01:51 PAGE 2   
+
+  55          
+  56          void LED2()     //灯全灭
+  57          {
+  58   1        if(fig == 1)
+  59   1        {
+  60   2        P0=0Xff;
+  61   2        P1=0Xff;
+  62   2        P2=0xff;
+  63   2        fig=0;
+  64   2        }
+  65   1      }
+  66          void LED3()       //12个暖灯亮
+  67          {
+  68   1        if(fig == 1)
+  69   1        {
+  70   2        P0=0Xff;
+  71   2        P1=0X0f;
+  72   2        P2=0x00;
+  73   2        }
+  74   1      }
+  75          void LED4()     //24个灯全亮
+  76          {
+  77   1        if(fig==1)
+  78   1          {
+  79   2          P0=0X00;
+  80   2          P1=0X00;
+  81   2          P2=0x00;
+  82   2          }
+  83   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    182    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
